@@ -1,23 +1,17 @@
 import socket
-import sys
-# import argparse
+import argparse
 
-# parser = argparse.ArgumentParser(
-#     description='Example with nonoptional arguments',
-# )
+parser = argparse.ArgumentParser(
+    description='Example with nonoptional arguments',
+)
 
-# parser.add_argument('IP', action="store")
-# parser.add_argument('port', action="store")
-# parser.add_argument('path', action="store")
-# args = parser.parse_args()
-# print(args)
+parser.add_argument('IP', action="store")
+parser.add_argument('port', action="store")
+parser.add_argument('path', action="store")
+args = parser.parse_args()
+print(args)
 
-# path_to_root = args.path
-
-
-IP = sys.argv[1]
-PORT = sys.argv[2]
-path_to_root = sys.argv[3]
+path_to_root = args.path
 
 
 def receive(client_connection):
@@ -63,6 +57,10 @@ while True:
     header, body = receive(client_connection)
     list_header = header.split()
     file = list_header[1].decode()
+    print(file.split("."))
+    file_ext = file.split(".")[1]
+    print("file is " + file)
+    print(file_ext)
 
     # print(header.decode().find('Firefox'))
 
@@ -71,7 +69,6 @@ while True:
         http_response = """\
 HTTP/1.1 200 OK
 Content-Type: text/html; charset=UTF-8
-
 <html>
 <body>
 <h1><b>Please switch to another browser as Firefox is not secure!!!</b></h1>
@@ -86,28 +83,21 @@ Content-Type: text/html; charset=UTF-8
 
     else:
         print("this is not firefox")
-        print(file.split("."))
-        file_ext = file.split(".")[1]
-        print("file is " + file)
-        print(file_ext)
 
         if(file_ext == "jpg"):
             http_response = """\
 HTTP/1.1 200 OK
 Content-Type: image/jpeg
-
 """
         elif(file_ext == "html"):
             http_response = """\
 HTTP/1.1 200 OK
 Content-Type: text/html; charset=UTF-8
-
 """
         elif(file_ext == "png"):
             http_response = """\
 HTTP/1.1 200 OK
 Content-Type: image/png
-
 """
 
         if(file_ext != "ico"):

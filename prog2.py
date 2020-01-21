@@ -1,5 +1,4 @@
 import socket
-import sys
 # import argparse
 
 # parser = argparse.ArgumentParser(
@@ -14,10 +13,7 @@ import sys
 
 # path_to_root = args.path
 
-
-IP = sys.argv[1]
-PORT = sys.argv[2]
-path_to_root = sys.argv[3]
+path_to_root = "E:/Projects/Web/ass1"
 
 
 def receive(client_connection):
@@ -63,6 +59,10 @@ while True:
     header, body = receive(client_connection)
     list_header = header.split()
     file = list_header[1].decode()
+    print(file.split("."))
+    file_ext = file.split(".")[1]
+    print("file is " + file)
+    print(file_ext)
 
     # print(header.decode().find('Firefox'))
 
@@ -86,10 +86,6 @@ Content-Type: text/html; charset=UTF-8
 
     else:
         print("this is not firefox")
-        print(file.split("."))
-        file_ext = file.split(".")[1]
-        print("file is " + file)
-        print(file_ext)
 
         if(file_ext == "jpg"):
             http_response = """\
@@ -113,6 +109,7 @@ Content-Type: image/png
         if(file_ext != "ico"):
             http_response = http_response.replace('\n', '\r\n')
             http_response = http_response.encode(encoding='UTF-8')
+            print("path is " + path_to_root + file)
             with open(path_to_root + file, 'rb') as fh:
                 http_response += fh.read()
             client_connection.sendall(http_response)
