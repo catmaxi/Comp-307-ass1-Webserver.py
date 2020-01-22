@@ -5,6 +5,19 @@ import os.path
 IP = sys.argv[1]
 PORT = int(sys.argv[2])
 path_to_root = sys.argv[3]
+file_exists = True
+
+
+Error404 = """\
+HTTP/1.1 200 OK
+Content-Type: text/html; charset=UTF-8
+
+<html>
+<body>
+<h1><b>404: Error<br>Please use a valid file!!!</b></h1>
+</body>
+</html>
+"""
 
 
 def receive(client_connection):
@@ -66,6 +79,7 @@ Content-Type: text/html; charset=UTF-8
 </body>
 </html>
 """
+
         http_response = http_response.replace('\n', '\r\n')
         http_response = http_response.encode(encoding='UTF-8')
         client_connection.sendall(http_response)
@@ -74,36 +88,75 @@ Content-Type: text/html; charset=UTF-8
 
     else:
         print("this is not firefox")
-        print(file.split("."))
-        file_ext = file.split(".")[1]
-        print("file is " + file)
-        print(file_ext)
 
-        if(file_ext == "jpg"):
-            http_response = """\
-HTTP/1.1 200 OK
-Content-Type: image/jpeg
-
-"""
-        elif(file_ext == "html"):
+        try:
+            print(file.split("."))
+            file_ext = file.split(".")[1]
+            print("file is " + file)
+            print(file_ext)
+        except IndexError:
+            print("Error: you have not given a file")
             http_response = """\
 HTTP/1.1 200 OK
 Content-Type: text/html; charset=UTF-8
 
+<html>
+<body>
+<h1><b>404: Error<br>Please use a valid file!!!</b></h1>
+</body>
+</html>
 """
-        elif(file_ext == "png"):
-            http_response = """\
+            # http_response = Error404
+            http_response = http_response.replace('\n', '\r\n')
+            http_response = http_response.encode(encoding='UTF-8')
+            client_connection.sendall(http_response)
+            client_connection.close()
+            file_exists = False
+            # sys.exit(1)
+
+        if(file_exists):
+            if(file_ext == "jpg"):
+                http_response = """\
 HTTP/1.1 200 OK
-Content-Type: image/png
+Content-Type: image/jpeg; charset=UTF-8
 
 """
+            elif(file_ext == "html"):
+                http_response = """\
+HTTP/1.1 200 OK
+Content-Type: text/html; charset=UTF-8
 
-        if(file_ext != "ico"):
-            fullpath = path_to_root + file
-            if(os.path.isfile(fullpath)):
-                http_response = http_response.replace('\n', '\r\n')
-                http_response = http_response.encode(encoding='UTF-8')
-                with open(path_to_root + file, 'rb') as fh:
-                    http_response += fh.read()
-                client_connection.sendall(http_response)
-                client_connection.close()
+"""
+            elif(file_ext == "png"):
+                http_response = """\
+HTTP/1.1 200 OK
+Content-Type: image/png; charset=UTF-8
+
+    """
+
+            if(file_ext != "ico"):
+                fullpath = path_to_root + file
+                if(os.path.isfile(fullpath)):
+                    print("heyman")
+                    http_response = http_response.replace('\n', '\r\n')
+                    http_response = http_response.encode(encoding='UTF-8')
+                    with open(path_to_root + file, 'rb') as fh:
+                        http_response += fh.read()
+                    client_connection.sendall(http_response)
+                    client_connection.close()
+                else:
+                    http_response = """\
+HTTP/1.1 200 OK
+Content-Type: text/html; charset=UTF-8
+
+<html>
+<body>
+<h1><b>404: Error<br>Please use a valid file!!!</b></h1>
+</body>
+</html>
+"""
+                    # http_response = Error404
+                    http_response = http_response.replace('\n', '\r\n')
+                    http_response = http_response.encode(encoding='UTF-8')
+                    client_connection.sendall(http_response)
+                    client_connection.close()
