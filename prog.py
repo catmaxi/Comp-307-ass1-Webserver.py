@@ -1,5 +1,6 @@
 import socket
 import sys
+import os.path
 
 IP = sys.argv[1]
 PORT = int(sys.argv[2])
@@ -98,9 +99,11 @@ Content-Type: image/png
 """
 
         if(file_ext != "ico"):
-            http_response = http_response.replace('\n', '\r\n')
-            http_response = http_response.encode(encoding='UTF-8')
-            with open(path_to_root + file, 'rb') as fh:
-                http_response += fh.read()
-            client_connection.sendall(http_response)
-            client_connection.close()
+            fullpath = path_to_root + file
+            if(os.path.isfile(fullpath)):
+                http_response = http_response.replace('\n', '\r\n')
+                http_response = http_response.encode(encoding='UTF-8')
+                with open(path_to_root + file, 'rb') as fh:
+                    http_response += fh.read()
+                client_connection.sendall(http_response)
+                client_connection.close()
