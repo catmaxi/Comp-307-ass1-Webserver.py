@@ -5,7 +5,7 @@ import os.path
 IP = sys.argv[1]
 PORT = int(sys.argv[2])
 path_to_root = sys.argv[3]
-file_exists = True
+
 
 
 Error404 = """\
@@ -88,6 +88,7 @@ Content-Type: text/html; charset=UTF-8
 
     else:
         print("this is not firefox")
+        file_exists = True
 
         try:
             print(file.split("."))
@@ -96,17 +97,17 @@ Content-Type: text/html; charset=UTF-8
             print(file_ext)
         except IndexError:
             print("Error: you have not given a file")
-            http_response = """\
-HTTP/1.1 200 OK
-Content-Type: text/html; charset=UTF-8
+#             http_response = """\
+# HTTP/1.1 200 OK
+# Content-Type: text/html; charset=UTF-8
 
-<html>
-<body>
-<h1><b>404: Error<br>Please use a valid file!!!</b></h1>
-</body>
-</html>
-"""
-            # http_response = Error404
+# <html>
+# <body>
+# <h1><b>404: Error<br>Please use a valid file!!!</b></h1>
+# </body>
+# </html>
+# """
+            http_response = Error404
             http_response = http_response.replace('\n', '\r\n')
             http_response = http_response.encode(encoding='UTF-8')
             client_connection.sendall(http_response)
@@ -145,17 +146,17 @@ Content-Type: image/png; charset=UTF-8
                     client_connection.sendall(http_response)
                     client_connection.close()
                 else:
-                    http_response = """\
-HTTP/1.1 200 OK
-Content-Type: text/html; charset=UTF-8
+                    #                     http_response = """\
+                    # HTTP/1.1 200 OK
+                    # Content-Type: text/html; charset=UTF-8
 
-<html>
-<body>
-<h1><b>404: Error<br>Please use a valid file!!!</b></h1>
-</body>
-</html>
-"""
-                    # http_response = Error404
+                    # <html>
+                    # <body>
+                    # <h1><b>404: Error<br>Please use a valid file!!!</b></h1>
+                    # </body>
+                    # </html>
+                    # """
+                    http_response = Error404
                     http_response = http_response.replace('\n', '\r\n')
                     http_response = http_response.encode(encoding='UTF-8')
                     client_connection.sendall(http_response)
