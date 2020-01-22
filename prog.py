@@ -1,22 +1,8 @@
 import socket
 import sys
-# import argparse
-
-# parser = argparse.ArgumentParser(
-#     description='Example with nonoptional arguments',
-# )
-
-# parser.add_argument('IP', action="store")
-# parser.add_argument('port', action="store")
-# parser.add_argument('path', action="store")
-# args = parser.parse_args()
-# print(args)
-
-# path_to_root = args.path
-
 
 IP = sys.argv[1]
-PORT = sys.argv[2]
+PORT = int(sys.argv[2])
 path_to_root = sys.argv[3]
 
 
@@ -51,7 +37,8 @@ def receive(client_connection):
     return header, body
 
 
-HOST, PORT = '127.0.0.1', 8888
+# HOST, PORT = '127.0.0.1', 8888
+HOST, PORT = IP, PORT
 
 listen_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 listen_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
