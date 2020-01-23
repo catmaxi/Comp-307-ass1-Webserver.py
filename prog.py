@@ -14,7 +14,7 @@ Content-Type: text/html; charset=UTF-8
 
 <html>
 <body>
-<h1><b>404: Error<br>Please use a valid file!!!</b></h1>
+<h1><b>404 <br>Page Not Found</b></h1>
 </body>
 </html>
 """
