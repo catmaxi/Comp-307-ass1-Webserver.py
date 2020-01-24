@@ -8,7 +8,7 @@ path_to_root = sys.argv[3]
 
 
 Error404 = """\
-HTTP/1.1 200 OK
+HTTP/1.1 404 Notfound
 Content-Type: text/html; charset=UTF-8
 
 <html>
@@ -67,7 +67,7 @@ while True:
     # print(header.decode().find('Firefox'))
 
     if(header.decode().find('Firefox') > -1):
-        print("this is firefox")
+        # print("this is firefox")
         http_response = """\
 HTTP/1.1 200 OK
 Content-Type: text/html; charset=UTF-8
@@ -86,26 +86,26 @@ Content-Type: text/html; charset=UTF-8
         # break;
 
     else:
-        print("this is not firefox")
+        # print("this is not firefox")
         file_exists = True
 
         try:
-            print(file.split("."))
+            # print(file.split("."))
             file_ext = file.split(".")[1]
-            print("file is " + file)
-            print(file_ext)
+            # print("file is " + file)
+            # print(file_ext)
         except IndexError:
-            print("Error: you have not given a file")
-#             http_response = """\
-# HTTP/1.1 200 OK
-# Content-Type: text/html; charset=UTF-8
+            # print("Error: you have not given a file")
+            #             http_response = """\
+            # HTTP/1.1 200 OK
+            # Content-Type: text/html; charset=UTF-8
 
-# <html>
-# <body>
-# <h1><b>404: Error<br>Please use a valid file!!!</b></h1>
-# </body>
-# </html>
-# """
+            # <html>
+            # <body>
+            # <h1><b>404: Error<br>Please use a valid file!!!</b></h1>
+            # </body>
+            # </html>
+            # """
             http_response = Error404
             http_response = http_response.replace('\n', '\r\n')
             http_response = http_response.encode(encoding='UTF-8')
@@ -137,7 +137,6 @@ Content-Type: image/png; charset=UTF-8
             if(file_ext != "ico"):
                 fullpath = path_to_root + file
                 if(os.path.isfile(fullpath)):
-                    print("heyman")
                     http_response = http_response.replace('\n', '\r\n')
                     http_response = http_response.encode(encoding='UTF-8')
                     with open(path_to_root + file, 'rb') as fh:
