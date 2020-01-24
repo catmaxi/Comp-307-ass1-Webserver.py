@@ -8,7 +8,7 @@ path_to_root = sys.argv[3]
 
 
 Error404 = """\
-HTTP/1.1 404 Notfound
+HTTP/1.1 200 OK
 Content-Type: text/html; charset=UTF-8
 
 <html>
